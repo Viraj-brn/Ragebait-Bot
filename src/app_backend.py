@@ -241,26 +241,33 @@ llm = None  # Will be set below if the model file exists
 
 
 def _init_llm():
-    """Load the GGUF model. Fails gracefully if file missing or OOM."""
     global llm
-    if not os.path.isfile(MODEL_PATH):
-        print(f"[WARN] Model not found at {MODEL_PATH} - LLM disabled.")
-        return
-
+    import os
+    from huggingface_hub import hf_hub_download
+    
     try:
+        print("Locating model on Hugging Face network...")
+        # 1. ADD YOUR REPO ID HERE
+        REPO_ID = "Your_HF_Username/frien-emy-model" 
+        
+        # This securely downloads the model to the container's cache
+        MODEL_PATH = hf_hub_download(
+            repo_id=REPO_ID, 
+            filename="ragebait_model.gguf", 
+            token=os.environ.get("HF_TOKEN")
+        )
+        
+        print("Loading Model into CPU... (this takes about 10 seconds)")
         from llama_cpp import Llama
-
-        print("Loading Model... (this may take a minute)")
         llm = Llama(
             model_path=MODEL_PATH,
-            n_gpu_layers=10,   # Adjust down (e.g. 15) if you hit GPU OOM
+            n_gpu_layers=0,  # <--- CRITICAL: Set to 0 to force 100% CPU usage
             n_ctx=2048,
             verbose=False,
         )
-        print("[OK] Model loaded!")
-    except Exception as exc:
-        print(f"[WARN] Model failed to load: {exc}")
-        llm = None
+        print("[OK] CPU Model loaded successfully!")
+    except Exception as e:
+        print(f"FATAL ERROR LOADING MODEL: {e}")
 
 
 _init_llm()

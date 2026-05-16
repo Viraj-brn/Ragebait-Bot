@@ -1,10 +1,10 @@
-# Core Framework (FastAPI + ASGI server)
-fastapi
-uvicorn[standard]
-python-dotenv
-jinja2
+# Core Framework (API & Server)
+fastapi[standard]
 
-# LLM Inference (local GGUF models)
+# Model Downloading (Required for Hugging Face Spaces)
+huggingface_hub
+
+# LLM Inference (CPU mode)
 llama-cpp-python
 
 # RAG Pipeline

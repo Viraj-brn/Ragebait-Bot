@@ -27,10 +27,9 @@ app = modal.App("frien-emy-backend")
 # 3. Define the serverless API function
 @app.function(
     image=image,
-    gpu="T4",
+    gpu="L4",
     volumes={"/root/models": model_volume},
-    secrets=[modal.Secret.from_dotenv()],
-    min_containers=1
+    secrets=[modal.Secret.from_dotenv()]
 )
 @modal.asgi_app()
 def run_api():
