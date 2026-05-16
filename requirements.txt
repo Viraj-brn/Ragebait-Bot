@@ -1,0 +1,25 @@
+# Core Framework (FastAPI + ASGI server)
+fastapi
+uvicorn[standard]
+python-dotenv
+jinja2
+
+# LLM Inference (local GGUF models)
+llama-cpp-python
+
+# RAG Pipeline
+langchain
+langchain-community
+langchain-huggingface
+sentence-transformers
+
+# Vector Database
+psycopg2-binary
+pgvector
+
+# Data Processing
+pandas
+
+# Authentication (Clerk JWT verification)
+PyJWT[crypto]
+httpx
